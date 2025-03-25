@@ -1,0 +1,50 @@
+{% extends 'website/base.html' %}
+
+{% block title %}Home - My Blog{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Latest Blog Posts</h1>
+
+    <!-- Display category buttons -->
+    <div class="mb-4">
+        {% if categories %}
+            {% for category in categories %}
+            <a href="{% url 'category_posts' category.slug %}" class="btn btn-outline-primary m-1">
+                {{ category.name }}
+            </a>
+            
+            {% endfor %}
+        {% else %}
+            <p class="text-muted">No categories available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Blog Posts List -->
+    {% if posts %}
+        <div class="list-group">
+            {% for post in posts %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3>
+                            <a href="{% url 'post_detail' post.pk %}" class="fw-bold fs-5 text-decoration-none text-primary">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <p class="text-muted">Published on: {{ post.created_at }}</p>
+                        <p>Category: <strong>{{ post.category }}</strong></p>
+                        <p>{{ post.content|striptags|truncatewords:20 }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No blog posts yet.</p>
+    {% endif %}
+
+    <!-- Create New Post Button (Only for Logged-in Users) -->
+    {% if user.is_authenticated %}
+        <div class="mt-4">
+            <a href="{% url 'post_create' %}" class="btn btn-success">Create New Post</a>
+        </div>
+    {% endif %}
+{% endblock %}

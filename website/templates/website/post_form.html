@@ -1,0 +1,38 @@
+{% extends 'website/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Create/Edit Blog Post{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="col-md-8 mx-auto">
+            <h2 class="text-center text-primary mb-4">
+                {% if object %}Edit{% else %}Create{% endif %} Blog Post
+            </h2>
+
+            <div class="card shadow p-4">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Django Form with Bootstrap Styling -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Title</label>
+                        {{ form.title|add_class:"form-control form-control-lg w-100" }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Content</label>
+                        {{ form.content|add_class:"form-control form-control-lg w-100" }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg">Save</button>
+                        <a href="{% url 'home' %}" class="btn btn-secondary btn-lg">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
